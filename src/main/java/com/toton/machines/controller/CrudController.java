@@ -1,5 +1,6 @@
 package com.toton.machines.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -74,12 +75,36 @@ public class CrudController<S> {
 		
 	}
 	
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public ResponseEntity<List<S>> list(HttpServletRequest request) {
+		
+		List<S> obj=null;
+		HttpStatus httpStatus = HttpStatus.OK;
+
+		try {
+			obj = (List<S>) crudService.list(getClassName(request));
+			if (obj==null) httpStatus = HttpStatus.NOT_FOUND;
+		}
+		catch (Exception e) {
+			httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		return(new ResponseEntity<List<S>>(obj, httpStatus));
+		
+	}
+	
 	private String getClassName(HttpServletRequest request) {
 		
 		String requestUrl = request.getRequestURL().toString();
-		requestUrl=requestUrl.substring(0, requestUrl.indexOf("/read/"));
-		return(requestUrl.substring(requestUrl.lastIndexOf("/")+1));
+		String host = request.getRemoteHost();
+		int hostpos = request.getRequestURL().indexOf(host);
+		int slashpos = request.getRequestURL().indexOf("/", hostpos + host.length());
+		int nextslashpos = request.getRequestURL().indexOf("/", slashpos + 1);
+		String className = requestUrl.substring(slashpos + 1, nextslashpos);
+		return(className);
 		
 	}
+	
+
 
 }

@@ -34,6 +34,4 @@ public class EngineModel extends ParentEntity {
 		this.fuelType = fuelType;
 	}
 	
-	
-	
 }

@@ -10,15 +10,15 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @MappedSuperclass
 public class ParentEntity {
 
 	@Id
-	@GeneratedValue(generator = "uuid2")
-	@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	@Column(columnDefinition = "BINARY(16)")
+	//@GeneratedValue(generator = "uuid2")
+	//@GenericGenerator(name = "uuid2", strategy = "uuid2")
+	//@Column(columnDefinition = "BINARY(16)")
+	@GeneratedValue
+	@Column( columnDefinition = "uuid", updatable = false )	
 	protected UUID id;
 	
 	@Column(nullable = false)

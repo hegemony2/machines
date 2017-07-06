@@ -1,7 +1,5 @@
 package com.toton.machines.domain;
 
-import javax.persistence.Entity;
-
 //@Entity
 public class InductionType extends ParentEntity {
 
