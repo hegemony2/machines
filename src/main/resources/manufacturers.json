@@ -1,0 +1,38 @@
+[
+	{
+		"manufacturer_name": "Chevrolet",
+		"list_automobile_model": [
+			{
+				"automobile_model_id": "17b827a6-3f59-49dd-8088-c43a934d42bb",
+				"automobile_model_name": "Camaro"
+			},
+			{
+				"automobile_model_id": "ac4305da-641b-4473-92ad-de8ee457acf5",
+				"automobile_model_name": "Corvette"
+			},
+			{
+				"automobile_model_id": "4c031b03-df48-4b9d-9e51-994fa540457e",
+				"automobile_model_name": "Volt"
+			}
+		],
+		"manufacturer_id": "56698d9c-64da-49e1-8125-7c9d763bd665"
+	},
+	{
+		"manufacturer_name": "Ford",
+		"list_automobile_model": [
+			{
+				"automobile_model_id": "139ae22e-155d-4b32-9f20-173d2a456431",
+				"automobile_model_name": "Focus"
+			},
+			{
+				"automobile_model_id": "c7fee5a8-1ea1-45b1-94e7-74b319d0e9af",
+				"automobile_model_name": "GT"
+			},
+			{
+				"automobile_model_id": "5af105fa-5304-4f86-956e-cbe8aa123018",
+				"automobile_model_name": "Mustang"
+			}
+		],
+		"manufacturer_id": "7220428e-21ea-43c1-bf8c-0ec1ae57b168"
+	}
+]
