@@ -1,7 +1,17 @@
 <!-- home.html -->
 
-<div class="hlist">
+<div>
 
-test
+	<table border="1">
+		<thead>
+			<tr>
+				<td ng-repeat="(property, data) in schema.properties">{{property}}</td>
+			</tr>
+		</thead>
+		<tr ng-repeat="obj in list">
+			<td ng-repeat-start="(property, data) in schema.properties" ng-if="$first"><nobr><a href="eee">{{obj[property]}}</a></nobr></td>
+			<td ng-repeat-end ng-if="!$first"><nobr>{{obj[property]}}</nobr></td>
+		</tr>
+	</table>
 
 </div>

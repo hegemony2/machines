@@ -26,4 +26,8 @@
         	$scope.list = response.data;
         }
         
+        function errorCallback(error){
+            //error code
+        }
+        
     });
