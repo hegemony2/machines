@@ -1,6 +1,8 @@
     // configure our routes
-    scotchApp.config(function($routeProvider) {
-        $routeProvider
+    automobilesApp.config(function($locationProvider, $routeProvider) {
+    	$locationProvider.hashPrefix('');
+    	$locationProvider.html5Mode(false);
+    	$routeProvider
 
             // route for the home page
             .when('/', {
@@ -9,14 +11,8 @@
             })
 
             // route for the about page
-            .when('/about', {
-                templateUrl : 'views/about.html',
-                controller  : 'aboutController'
+            .when('/models', {
+                templateUrl : 'views/models.html',
+                controller  : 'modelsController'
             })
-
-            // route for the contact page
-            .when('/contact', {
-                templateUrl : 'views/contact.html',
-                controller  : 'contactController'
-            });
     });

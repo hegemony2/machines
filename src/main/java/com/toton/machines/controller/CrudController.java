@@ -93,12 +93,31 @@ public class CrudController<S> {
 		
 	}
 	
+	@RequestMapping(value = "/schema", method = RequestMethod.GET, produces = "application/json" )
+	public ResponseEntity<String> schema(HttpServletRequest request) {
+		
+		String obj=null;
+		HttpStatus httpStatus = HttpStatus.OK;
+
+		try {
+			obj = (String) crudService.schema(getClassName(request));
+			if (obj==null) httpStatus = HttpStatus.NOT_FOUND;
+		}
+		catch (Exception e) {
+			httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		return(new ResponseEntity<String>(obj, httpStatus));
+		
+	}
+	
 	private String getClassName(HttpServletRequest request) {
 		
 		String requestUrl = request.getRequestURL().toString();
 		String host = request.getRemoteHost();
 		int hostpos = request.getRequestURL().indexOf(host);
 		int slashpos = request.getRequestURL().indexOf("/", hostpos + host.length());
+		slashpos = request.getRequestURL().indexOf("/", slashpos + 1);		
 		int nextslashpos = request.getRequestURL().indexOf("/", slashpos + 1);
 		String className = requestUrl.substring(slashpos + 1, nextslashpos);
 		return(className);

@@ -8,7 +8,7 @@ import com.toton.machines.domain.AutomobileModel;
 import com.toton.machines.service.AutomobileModelService;
 
 @RestController
-@RequestMapping(value="/AutomobileModel")
+@RequestMapping(value="/services/AutomobileModel")
 public class AutomobileModelController extends CrudController<AutomobileModel> {
 
 	@Autowired

@@ -13,7 +13,7 @@ import com.toton.machines.domain.Manufacturer;
 import com.toton.machines.service.ManufacturerService;
 
 @RestController
-@RequestMapping(value="/Manufacturer")
+@RequestMapping(value="/services/Manufacturer")
 public class ManufacturerController extends CrudController<Manufacturer> {
 
 	@Autowired

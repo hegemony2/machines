@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
+import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import com.google.common.collect.Lists;
 
 @Service
@@ -40,11 +43,24 @@ public class CrudService<S> {
 		return (obj);
 
 	}
-	
+
 	public List<S> list(String className) throws Exception {
 
 		CrudRepository<S, UUID> crudRepository = getRepository(className);
 		List<S> obj = Lists.newArrayList(crudRepository.findAll());
+		return (obj);
+
+	}
+
+	public String schema(String className) throws Exception {
+
+		String obj = null;
+
+		ObjectMapper mapper = new ObjectMapper();
+		// configure mapper, if necessary, then create schema generator
+		JsonSchemaGenerator schemaGen = new JsonSchemaGenerator(mapper);
+		JsonSchema schema = schemaGen.generateSchema(Class.forName("com.toton.machines.domain." + className));
+		obj = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(schema);
 		return (obj);
 
 	}
@@ -57,9 +73,9 @@ public class CrudService<S> {
 		CrudRepository<S, UUID> crudRepository = null;
 
 		try {
-			crudRepository = (CrudRepository<S, UUID>) repositories.getRepositoryFor(Class.forName("com.toton.machines.domain." + className));
-		}
-		catch (ClassNotFoundException e) {
+			crudRepository = (CrudRepository<S, UUID>) repositories
+					.getRepositoryFor(Class.forName("com.toton.machines.domain." + className));
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 

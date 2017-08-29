@@ -1,9 +1,7 @@
     // create the controller and inject Angular's $scope
-    scotchApp.controller('mainController', function($scope, $http) {
-        // create a message to display in our view
-        $scope.message = 'Everyone come and see how good I look!';
+    automobilesApp.controller('mainController', function($scope, $http) {
         
-        $http.get('/Manufacturer/getListManufacturer').then(getListManufacturer, errorCallback);
+        $http.get('/services/Manufacturer/getListManufacturer').then(getListManufacturer, errorCallback);
 
         function getListManufacturer(response){
         	$scope.manufacturers = response.data;
@@ -15,10 +13,17 @@
         
     });
 
-    scotchApp.controller('aboutController', function($scope) {
-        $scope.message = 'Look! I am an about page.';
-    });
+    automobilesApp.controller('modelsController', function($scope, $http) {
+    	
+    	$http.get('/services/AutomobileModel/schema').then(getSchema, errorCallback);
+    	$http.get('/services/AutomobileModel/list').then(getList, errorCallback);
 
-    scotchApp.controller('contactController', function($scope) {
-        $scope.message = 'Contact us! JK. This is just a demo.';
+        function getSchema(response){
+        	$scope.schema = response.data;
+        }
+
+        function getList(response){
+        	$scope.list = response.data;
+        }
+        
     });

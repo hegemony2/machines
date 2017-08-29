@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.toton.machines.domain.EngineConfiguration;
 
 @RestController
-@RequestMapping(value="/EngineConfiguration")
+@RequestMapping(value="/services/EngineConfiguration")
 public class EngineConfigurationController extends CrudController<EngineConfiguration> {
 
 

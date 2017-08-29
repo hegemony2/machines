@@ -1,1 +1,1 @@
-    var scotchApp = angular.module('scotchApp', ['ngRoute']);
+    var automobilesApp = angular.module('automobilesApp', ['ngRoute']);
