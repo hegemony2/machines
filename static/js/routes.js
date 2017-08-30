@@ -10,9 +10,16 @@
                 controller  : 'mainController'
             })
 
-            // route for the about page
-            .when('/models', {
-                templateUrl : 'views/models.html',
-                controller  : 'modelsController'
+            // route for list view
+            .when('/:object/list', {
+                templateUrl : 'views/list.html',
+                controller  : 'listController'
             })
+            
+            // route for read view
+            .when('/:object/:mode/:id', {
+                templateUrl : 'views/read.html',
+                controller  : 'readController'
+            })
+            
     });

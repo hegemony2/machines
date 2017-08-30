@@ -1,0 +1,20 @@
+<!-- home.html -->
+
+<div>
+
+	<div ng-repeat="(property, data) in schema.properties">
+		<div>{{property}}</div>
+		<div ng-if="getFieldEditability(mode, property, data)=='read'">
+			<div ng-if="getFieldType(mode, property, data)=='text'">{{read[property]}}</div>
+			<div ng-if="getFieldType(mode, property, data)=='datetime'">{{read[property] | date:'medium'}}</div>
+		</div>
+		<div ng-if="getFieldEditability(mode, property, data)=='edit'">
+			<div ng-if="getFieldType(mode, property, data)=='text'"><input type="text" data-ng-model="read[property]"/></div>
+			<div ng-if="getFieldType(mode, property, data)=='object'">
+				<select data-ng-options="mfr.name for mfr in selectObject.Manufacturer track by mfr.id" data-ng-model="manufacturer"></select>
+			</div>		
+		</div>
+		<br/>
+	</div>
+
+</div>

@@ -9,7 +9,7 @@
 			</tr>
 		</thead>
 		<tr ng-repeat="obj in list">
-			<td ng-repeat-start="(property, data) in schema.properties" ng-if="$first"><nobr><a href="eee">{{obj[property]}}</a></nobr></td>
+			<td ng-repeat-start="(property, data) in schema.properties" ng-if="$first"><nobr><a ng-href="#{{object}}/edit/{{obj[property]}}">{{obj[property]}}</a></nobr></td>
 			<td ng-repeat-end ng-if="!$first"><nobr>{{obj[property]}}</nobr></td>
 		</tr>
 	</table>
