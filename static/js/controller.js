@@ -58,15 +58,18 @@
 
         function getRead(response){
         	$scope.read = response.data;
+        	for (var property in response.data) {
+
+        		if(typeof(response.data[property])=="object") {
+        		    $parse("selectedValues." + property).assign($scope, response.data[property].id);
+        		}
+        		
+        	}
         }
         
         function getSelectObject(response){
         	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
-        	$parse("selectObject." + className).assign($scope, response.data);
-        	
-        	$scope.manufacturer="Chevrolet";
-
-        	
+        	$parse("selectObject." + className.toLowerCase()).assign($scope, response.data);
         	console.log("hello");
         }
         

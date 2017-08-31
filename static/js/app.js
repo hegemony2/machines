@@ -22,3 +22,31 @@ function getFieldType(mode, property, data) {
 	
 	
 }
+
+automobilesApp.directive('dynamicNgModel', ['$compile', '$parse', function ($compile, $parse) {
+    return {
+        restrict: 'A',
+        terminal: true,
+        priority: 100000,
+        link: function (scope, elem) {
+            var name = $parse(elem.attr('data-dynamic-ng-model'))(scope);
+            elem.removeAttr('data-dynamic-ng-model');
+            elem.attr('data-ng-model', name);
+            $compile(elem)(scope);
+        }
+    };
+}]);
+
+automobilesApp.directive('dynamicNgOptions', ['$compile', '$parse', function ($compile, $parse) {
+    return {
+        restrict: 'A',
+        terminal: true,
+        priority: 100000,
+        link: function (scope, elem) {
+            var name = $parse(elem.attr('dynamic-ng-options'))(scope);
+            elem.removeAttr('dynamic-ng-options');
+            elem.attr('ng-options', name);
+            $compile(elem)(scope);
+        }
+    };
+}]);
