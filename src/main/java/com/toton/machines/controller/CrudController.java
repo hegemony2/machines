@@ -59,7 +59,7 @@ public class CrudController<S> {
 	}
 	
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.PATCH)
-	public ResponseEntity<S> update(HttpServletRequest request, @RequestBody JsonNode obj, @PathVariable UUID id) {
+	public ResponseEntity<S> update(HttpServletRequest request, @RequestBody S obj, @PathVariable UUID id) {
 
 		S savedObj=null;
 		HttpStatus httpStatus = HttpStatus.CREATED;

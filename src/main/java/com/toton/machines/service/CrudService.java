@@ -37,9 +37,10 @@ public class CrudService<S> {
 
 	}
 
-	public S update(JsonNode jsonNode, String className, UUID id) throws Exception {
+	public S update(S obj, String className, UUID id) throws Exception {
 
-		S obj = (S) read(className, id);
+		CrudRepository<S, UUID> crudRepository = getRepository((Class<S>) obj.getClass());
+		obj = (S) crudRepository.save(obj);
 		return (obj);
 
 	}

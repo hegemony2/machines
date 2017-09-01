@@ -70,11 +70,18 @@
         function getSelectObject(response){
         	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
         	$parse("selectObject." + className.toLowerCase()).assign($scope, response.data);
-        	console.log("hello");
+
         }
         
         function errorCallback(error){
             //error code
+        }
+        
+        $scope.submitForm=function() {
+        	console.log("form submitted;");
+        	var data = $scope.read;
+        	var url = "/services/" + object + "/update/" + id;
+        	$http.patch(url, data);
         }
         
     });

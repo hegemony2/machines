@@ -3,12 +3,9 @@ var automobilesApp = angular.module('automobilesApp', ['ngRoute']);
 function getFieldEditability(mode, property, data) {
 	
 	var editability = (mode=="read") ? "read" : "edit";
-	
 	var readOnlyFields=["id","updated","created","updatedBy","createdBy"];
 	if (readOnlyFields.indexOf(property)>-1) editability="read";
-	
 	return(editability);
-	
 	
 }
 
@@ -17,9 +14,7 @@ function getFieldType(mode, property, data) {
 	var type = "text";
 	if (data.type=="integer" && data.format=="utc-millisec") type = "datetime";
 	if (data.type=="object") type="object";
-	
 	return(type);
-	
 	
 }
 
@@ -43,9 +38,9 @@ automobilesApp.directive('dynamicNgOptions', ['$compile', '$parse', function ($c
         terminal: true,
         priority: 100000,
         link: function (scope, elem) {
-            var name = $parse(elem.attr('dynamic-ng-options'))(scope);
-            elem.removeAttr('dynamic-ng-options');
-            elem.attr('ng-options', name);
+            var name = $parse(elem.attr('data-dynamic-ng-options'))(scope);
+            elem.removeAttr('data-dynamic-ng-options');
+            elem.attr('data-ng-options', name);
             $compile(elem)(scope);
         }
     };
