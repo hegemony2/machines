@@ -4,12 +4,12 @@
 	<form name="myForm" data-ng-submit="submitForm()">
 		<div data-ng-repeat="(property, data) in schema.properties">
 			<div>{{property}}</div>
-			<div data-ng-if="getFieldEditability(mode, property, data)=='read'">
+			<div data-ng-if="!isFieldEditable(mode, property, data)">
 				<div data-ng-if="getFieldType(mode, property, data)=='text'">{{read[property]}}</div>
 				<div data-ng-if="getFieldType(mode, property, data)=='datetime'">{{read[property]| date:'medium'}}</div>
 				<div data-ng-if="getFieldType(mode, property, data)=='object'">{{read[property].name}}</div>				
 			</div>
-			<div data-ng-if="getFieldEditability(mode, property, data)=='edit'">
+			<div data-ng-if="isFieldEditable(mode, property, data)">
 				<div data-ng-if="getFieldType(mode, property, data)=='text'">
 					<input type="text" data-ng-model="read[property]" />
 				</div>

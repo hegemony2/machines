@@ -13,9 +13,14 @@
         
     });
 
-    automobilesApp.controller('listController', function($scope, $http, $route) {
+    automobilesApp.controller('listController', function($scope, $http, $route, $location) {
 
     	$scope.object = $route.current.params.object;
+    	$scope.isFieldEditable = isFieldEditable;
+    	$scope.getFieldType = getFieldType;
+
+        var url=$location.absUrl().split('?')[0];
+    	$scope.className=url.substring(url.indexOf("#/") + 2);
  	
     	$http.get("/services/" + $scope.object + "/schema").then(getSchema, errorCallback);
     	$http.get("/services/" + $scope.object + "/list").then(getList, errorCallback);
@@ -43,7 +48,7 @@
     	$http.get("/services/" + object + "/schema").then(getSchema, errorCallback);
     	$http.get("/services/" + object + "/read/" + id).then(getRead, errorCallback);
     	
-    	$scope.getFieldEditability = getFieldEditability;
+    	$scope.isFieldEditable = isFieldEditable;
     	$scope.getFieldType = getFieldType;
     	
         function getSchema(response){
@@ -85,3 +90,4 @@
         }
         
     });
+    

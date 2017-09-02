@@ -2,16 +2,23 @@
 
 <div>
 
+	<h4>{{className}} <small>(<a href="">new</a>)</small></h4>
+	<br/>
+
 	<table border="1">
 		<thead>
 			<tr>
-				<td ng-repeat="(property, data) in schema.properties">{{property}}</td>
+				<td ng-repeat="(property, data) in schema.properties" ng-if="isFieldEditable('edit', property, data)"><b>{{property}}</b></td>
 			</tr>
 		</thead>
+
 		<tr ng-repeat="obj in list">
-			<td ng-repeat-start="(property, data) in schema.properties" ng-if="$first"><nobr><a ng-href="#{{object}}/edit/{{obj[property]}}">{{obj[property]}}</a></nobr></td>
-			<td ng-repeat-end ng-if="!$first"><nobr>{{obj[property]}}</nobr></td>
+			<td ng-repeat="(property, data) in schema.properties" ng-if="isFieldEditable('edit', property, data)"><nobr>
+					<a ng-href="#{{object}}/edit/{{obj['id']}}" ng-if="property=='name'">{{obj[property]}}</a> <span ng-if="property!='name' && getFieldType('edit', property, data)=='object'">{{obj[property].name}}</span> <span ng-if="property!='name' && !getFieldType('edit', property, data)=='object'">{{obj[property]}}</span>
+				</nobr></td>
+
 		</tr>
+
 	</table>
 
 </div>

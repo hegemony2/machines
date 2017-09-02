@@ -22,4 +22,10 @@
                 controller  : 'readController'
             })
             
+                        // route for read view
+            .when('/:object/:mode', {
+                templateUrl : 'views/read.html',
+                controller  : 'readController'
+            })
+            
     });
