@@ -1,25 +1,29 @@
 <!-- home.html -->
 
 <div>
+
+	<h4>{{className}}</h4>
+	<br/>
+
 	<form name="myForm" data-ng-submit="submitForm()">
 		<div data-ng-repeat="(property, data) in schema.properties">
-			<div>{{property}}</div>
-			<div data-ng-if="!isFieldEditable(mode, property, data)">
+			<div data-ng-if="isFieldUpdatable(mode, property, data)">{{property}}</div>
+			<!-- 			<div data-ng-if="!isFieldEditable(mode, property, data)">
 				<div data-ng-if="getFieldType(mode, property, data)=='text'">{{read[property]}}</div>
 				<div data-ng-if="getFieldType(mode, property, data)=='datetime'">{{read[property]| date:'medium'}}</div>
 				<div data-ng-if="getFieldType(mode, property, data)=='object'">{{read[property].name}}</div>				
-			</div>
-			<div data-ng-if="isFieldEditable(mode, property, data)">
+			</div> -->
+			<div data-ng-if="isFieldUpdatable(mode, property, data)">
 				<div data-ng-if="getFieldType(mode, property, data)=='text'">
 					<input type="text" data-ng-model="read[property]" />
 				</div>
 				<div data-ng-if="getFieldType(mode, property, data)=='object'">
 					<select data-ng-model="read[property].id" data-dynamic-ng-options="'obj.id as obj.name for obj in selectObject.' + property.toLowerCase()"></select>
 				</div>
+				<br />
 			</div>
-			<br />
 		</div>
-		<div data-ng-if="mode=='edit'">
+		<div data-ng-if="mode=='update' || mode=='create'">
 			<input type="submit">
 		</div>
 	</form>

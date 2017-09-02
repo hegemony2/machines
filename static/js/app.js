@@ -1,6 +1,6 @@
 var automobilesApp = angular.module('automobilesApp', ['ngRoute']);
 
-function isFieldEditable(mode, property, data) {
+function isFieldUpdatable(mode, property, data) {
 	
 	var editability = (mode=="read") ? false : true;
 	var readOnlyFields=["id","updated","created","updatedBy","createdBy"];

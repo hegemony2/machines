@@ -16,7 +16,7 @@
     automobilesApp.controller('listController', function($scope, $http, $route, $location) {
 
     	$scope.object = $route.current.params.object;
-    	$scope.isFieldEditable = isFieldEditable;
+    	$scope.isFieldUpdatable = isFieldUpdatable;
     	$scope.getFieldType = getFieldType;
 
         var url=$location.absUrl().split('?')[0];
@@ -39,16 +39,20 @@
         
     });
     
-    automobilesApp.controller('readController', function($scope, $http, $route, $parse) {
+    automobilesApp.controller('readController', function($scope, $http, $route, $parse, $location) {
 
     	var object = $route.current.params.object;
     	var id = $route.current.params.id;
     	$scope.mode = $route.current.params.mode;
+    	
+        var url=$location.absUrl().split('?')[0];
+    	$scope.className=url.substring(url.indexOf("#/") + 2);
  	
     	$http.get("/services/" + object + "/schema").then(getSchema, errorCallback);
-    	$http.get("/services/" + object + "/read/" + id).then(getRead, errorCallback);
-    	
-    	$scope.isFieldEditable = isFieldEditable;
+    	if ($scope.mode!='create') {
+    		$http.get("/services/" + object + "/read/" + id).then(getRead, errorCallback);	
+    	}
+    	$scope.isFieldUpdatable = isFieldUpdatable;
     	$scope.getFieldType = getFieldType;
     	
         function getSchema(response){
@@ -86,7 +90,16 @@
         	console.log("form submitted;");
         	var data = $scope.read;
         	var url = "/services/" + object + "/update/" + id;
-        	$http.patch(url, data);
+        	console.log($scope.mode);
+        	if ($scope.mode=="create") {
+        		url = "/services/create";
+        		$http.post(url, data);
+        	}
+        	else {
+        		$http.patch(url, data);	
+        	}
+        	
+        	
         }
         
     });
