@@ -71,8 +71,10 @@ public class ParentEntity {
 		Date now = new Date();
 		setUpdated(now);
 		setUpdatedBy(user);
-		if (getCreated()==null) setCreated(now);
-		if (getCreatedBy()==null) setCreatedBy(user);
+		if (getCreated()==null || getId()==null) {
+			setCreated(now);
+			setCreatedBy(user);
+		}
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.toton.machines.repositories;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,6 +35,10 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, UUID
 			") t " 
 			+ "", nativeQuery=true)
 	String listManufacturerAndModels();
+	
+	@Override
+	@Query("select m from Manufacturer m order by m.name")
+	public List<Manufacturer> findAll();
 	
 	
 }

@@ -39,7 +39,7 @@
         
     });
     
-    automobilesApp.controller('readController', function($scope, $http, $route, $parse, $location) {
+    automobilesApp.controller('readController', function($scope, $http, $route, $parse, $location, $window) {
 
     	var object = $route.current.params.object;
     	var id = $route.current.params.id;
@@ -58,13 +58,14 @@
         function getSchema(response){
         	$scope.schema = response.data;
         	for (var property in response.data.properties) {
+        		if ($scope.mode=="create") $parse("read." + property).assign($scope, "");
         		if (response.data.properties[property].type=="object") {
         			var className = response.data.properties[property].id.substring(response.data.properties[property].id.lastIndexOf(":") + 1);
         			$http.get("/services/" + className + "/list").then(getSelectObject, errorCallback);
         		}
         	}
         }
-
+        
         function getRead(response){
         	$scope.read = response.data;
         	for (var property in response.data) {
@@ -75,6 +76,7 @@
         		
         	}
         }
+       
         
         function getSelectObject(response){
         	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
@@ -92,14 +94,24 @@
         	var url = "/services/" + object + "/update/" + id;
         	console.log($scope.mode);
         	if ($scope.mode=="create") {
-        		url = "/services/create";
-        		$http.post(url, data);
+        		url = "/services/" + object + "/create";
+        		$http.post(url, data).then(goBack, errorCallback);
         	}
         	else {
-        		$http.patch(url, data);	
+        		$http.patch(url, data).then(goBack, errorCallback);	
         	}
-        	
-        	
+        }
+        
+        $scope.deleteObject=function() {
+        	console.log("deleting object;");
+        	data=null;
+        	var url = "/services/" + object + "/delete/" + id;
+        	console.log(url);
+       		$http.delete(url, data).then(goBack, errorCallback);	
+        }
+        
+        function goBack(response) {
+            $window.history.back();
         }
         
     });

@@ -9,7 +9,6 @@ import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
 import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
@@ -39,9 +38,17 @@ public class CrudService<S> {
 
 	public S update(S obj, String className, UUID id) throws Exception {
 
+		@SuppressWarnings("unchecked")
 		CrudRepository<S, UUID> crudRepository = getRepository((Class<S>) obj.getClass());
 		obj = (S) crudRepository.save(obj);
 		return (obj);
+
+	}
+	
+	public void delete(String className, UUID id) throws Exception {
+
+		CrudRepository<S, UUID> crudRepository = getRepository(className);
+		crudRepository.delete(id);
 
 	}
 

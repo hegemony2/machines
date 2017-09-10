@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.toton.machines.service.CrudService;
 
 @RestController
@@ -66,6 +65,23 @@ public class CrudController<S> {
 
 		try {
 			savedObj = (S) crudService.update(obj, getClassName(request), id);
+		}
+		catch (Exception e) {
+			httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		return(new ResponseEntity<S>(savedObj, httpStatus));
+		
+	}
+	
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<S> delete(HttpServletRequest request, @PathVariable UUID id) {
+
+		S savedObj=null;
+		HttpStatus httpStatus = HttpStatus.CREATED;
+
+		try {
+			crudService.delete(getClassName(request), id);
 		}
 		catch (Exception e) {
 			httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
