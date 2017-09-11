@@ -10,27 +10,31 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
+import com.toton.machines.annotation.FieldDefinition;
+
 @MappedSuperclass
 public class ParentEntity {
 
 	@Id
-	//@GeneratedValue(generator = "uuid2")
-	//@GenericGenerator(name = "uuid2", strategy = "uuid2")
-	//@Column(columnDefinition = "BINARY(16)")
 	@GeneratedValue
-	@Column( columnDefinition = "uuid", updatable = false )	
+	@Column( columnDefinition = "uuid", updatable = false )
+	@FieldDefinition(label="id", order=1, htmltype="text", showoncreate=false, showonupdate=false, showonread=false, showinlist=false)
 	protected UUID id;
 	
 	@Column(nullable = false)
+	@FieldDefinition(label="Date Created", order=2, htmltype="text", showoncreate=false, showonupdate=false, showonread=false, showinlist=false)
 	protected Date created;
 	
 	@Column(nullable = false)
+	@FieldDefinition(label="Date Updated", order=3, htmltype="text", showoncreate=false, showonupdate=false, showonread=false, showinlist=false)	
 	protected Date updated;
 	
 	@Column(length = 256, nullable = false)
+	@FieldDefinition(label="Created By", order=4, htmltype="text", showoncreate=false, showonupdate=false, showonread=false, showinlist=false)	
 	protected String createdBy;
 	
 	@Column(length = 256, nullable = false)
+	@FieldDefinition(label="Updated By", order=5, htmltype="text", showoncreate=false, showonupdate=false, showonread=false, showinlist=false)	
 	protected String updatedBy;
 	
 	public UUID getId() {

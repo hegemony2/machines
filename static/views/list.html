@@ -3,23 +3,26 @@
 <div>
 
 	<h4>
-		{{className}} <small>(<a data-ng-href="#{{object}}/create">new</a>)</small>
+		{{className}} <small>(<a data-ng-href="#{{object}}/create">new</a>)
+		</small>
 	</h4>
 	<br />
 
 	<table border="1">
 		<thead>
 			<tr>
-				<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="isFieldUpdatable('update', property, data)"><b>{{property}}</b></td>
+				<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="showField('list', property, data)"><b>{{data.fieldDefinition.label}}</b></td>
 			</tr>
 		</thead>
 
 		<tr data-ng-repeat="obj in list">
-			<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="isFieldUpdatable('update', property, data)"><nobr>
+			<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="showField('list', property, data)">
+				<nobr>
 					<a data-ng-href="#{{object}}/update/{{obj['id']}}" data-ng-if="property=='name'">{{obj[property]}}</a> 
-					<span data-ng-if="property!='name' && getFieldType('update', property, data)=='object'">{{obj[property].name}}</span> 
-					<span data-ng-if="property!='name' && !getFieldType('update', property, data)=='object'">{{obj[property]}}</span>
-				</nobr></td>
+					<span data-ng-if="property!='name' && getFieldDisplayType('update', property, data)=='object'">{{obj[property].name}}</span>
+					<span data-ng-if="property!='name' && !getFieldDisplayType('update', property, data)=='object'">{{obj[property]}}</span>
+				</nobr>
+			</td>
 
 		</tr>
 

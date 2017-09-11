@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.toton.machines.dto.schema.Entity;
 import com.toton.machines.service.CrudService;
 
 @RestController
@@ -110,20 +111,20 @@ public class CrudController<S> {
 	}
 	
 	@RequestMapping(value = "/schema", method = RequestMethod.GET, produces = "application/json" )
-	public ResponseEntity<String> schema(HttpServletRequest request) {
+	public ResponseEntity<Entity> schema(HttpServletRequest request) {
 		
-		String obj=null;
+		Entity obj=null;
 		HttpStatus httpStatus = HttpStatus.OK;
 
 		try {
-			obj = (String) crudService.schema(getClassName(request));
+			obj = crudService.schema(getClassName(request));
 			if (obj==null) httpStatus = HttpStatus.NOT_FOUND;
 		}
 		catch (Exception e) {
 			httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
 			e.printStackTrace();
 		}
-		return(new ResponseEntity<String>(obj, httpStatus));
+		return(new ResponseEntity<Entity>(obj, httpStatus));
 		
 	}
 	

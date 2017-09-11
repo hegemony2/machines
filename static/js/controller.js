@@ -16,9 +16,9 @@
     automobilesApp.controller('listController', function($scope, $http, $route, $location) {
 
     	$scope.object = $route.current.params.object;
-    	$scope.isFieldUpdatable = isFieldUpdatable;
-    	$scope.getFieldType = getFieldType;
-
+    	$scope.showField = showField;
+    	$scope.getFieldDisplayType = getFieldDisplayType;
+    	
         var url=$location.absUrl().split('?')[0];
     	$scope.className=url.substring(url.indexOf("#/") + 2);
  	
@@ -52,15 +52,16 @@
     	if ($scope.mode!='create') {
     		$http.get("/services/" + object + "/read/" + id).then(getRead, errorCallback);	
     	}
-    	$scope.isFieldUpdatable = isFieldUpdatable;
-    	$scope.getFieldType = getFieldType;
+    	$scope.showField = showField;
+    	$scope.getFieldDisplayType = getFieldDisplayType;
+    	$scope.getFieldEditType = getFieldEditType;
     	
         function getSchema(response){
         	$scope.schema = response.data;
         	for (var property in response.data.properties) {
         		if ($scope.mode=="create") $parse("read." + property).assign($scope, "");
-        		if (response.data.properties[property].type=="object") {
-        			var className = response.data.properties[property].id.substring(response.data.properties[property].id.lastIndexOf(":") + 1);
+        		if (response.data.properties[property].id) {
+        			var className = response.data.properties[property].type;
         			$http.get("/services/" + className + "/list").then(getSelectObject, errorCallback);
         		}
         	}

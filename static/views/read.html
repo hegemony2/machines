@@ -3,19 +3,32 @@
 <div>
 
 	<h4>
-		{{className}} <small>(<a data-ng-click="deleteObject();">delete</a>)</small>
+		{{className}} <div  data-ng-if="mode=='read' || mode=='update'"><small>(<a data-ng-click="deleteObject();">delete</a>)</small></div>
 	</h4>
 	<br/>
 
 	<form name="myForm" data-ng-submit="submitForm()" data-ng-controller="readController">
 		<div data-ng-repeat="(property, data) in schema.properties">
-			<div data-ng-if="isFieldUpdatable(mode, property, data)">{{property}}</div>
+			<div data-ng-if="showField(mode, property, data)">
+				<div><b>{{data.fieldDefinition.label}}</b></div>
+				<div data-ng-if="mode=='read'">
+					<div data-ng-if="getFieldDisplayType(mode, property, data)=='object'">{{read[property].name}}</div>
+					<div data-ng-if="getFieldDisplayType(mode, property, data)!='object'">{{read[property]}}</div>
+				</div>
+				<div data-ng-if="mode=='create'">
+					<div data-ng-if="getFieldEditType(mode, property, data)=='text'"><input type="text" data-ng-model="read.name" /></div>
+					<div data-ng-if="getFieldEditType(mode, property, data)=='object'">
+						<select data-ng-model="read[property].id" data-dynamic-ng-options="'obj.id as obj.name for obj in selectObject.' + property.toLowerCase()"></select>
+					</div>					
+				</div>				
+				<br/>
+			</div>
 			<!-- 			<div data-ng-if="!isFieldEditable(mode, property, data)">
 				<div data-ng-if="getFieldType(mode, property, data)=='text'">{{read[property]}}</div>
 				<div data-ng-if="getFieldType(mode, property, data)=='datetime'">{{read[property]| date:'medium'}}</div>
 				<div data-ng-if="getFieldType(mode, property, data)=='object'">{{read[property].name}}</div>				
 			</div> -->
-			<div data-ng-if="isFieldUpdatable(mode, property, data)">
+<!-- 			<div data-ng-if="isFieldUpdatable(mode, property, data)">
 				<div data-ng-if="getFieldType(mode, property, data)=='text'">
 					<input type="text" data-ng-model="read.name" />
 				</div>
@@ -23,7 +36,7 @@
 					<select data-ng-model="read[property].id" data-dynamic-ng-options="'obj.id as obj.name for obj in selectObject.' + property.toLowerCase()"></select>
 				</div>
 				<br />
-			</div>
+			</div> -->
 		</div>
 		<div data-ng-if="mode=='update' || mode=='create'">
 			<input type="submit">

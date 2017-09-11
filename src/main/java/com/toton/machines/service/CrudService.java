@@ -9,10 +9,8 @@ import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.module.jsonSchema.JsonSchema;
-import com.fasterxml.jackson.module.jsonSchema.JsonSchemaGenerator;
 import com.google.common.collect.Lists;
+import com.toton.machines.dto.schema.Entity;
 
 @Service
 public class CrudService<S> {
@@ -20,6 +18,9 @@ public class CrudService<S> {
 	@Autowired
 	private WebApplicationContext webApplicationContext;
 
+	@Autowired
+	private SchemaService schemaService;
+	
 	public S create(S obj) throws Exception {
 
 		@SuppressWarnings("unchecked")
@@ -60,17 +61,20 @@ public class CrudService<S> {
 
 	}
 
-	public String schema(String className) throws Exception {
+//	public String schema(String className) throws Exception {
+	public Entity schema(String className) throws Exception {
 
-		String obj = null;
-
-		ObjectMapper mapper = new ObjectMapper();
-		// configure mapper, if necessary, then create schema generator
-		JsonSchemaGenerator schemaGen = new JsonSchemaGenerator(mapper);
-		JsonSchema schema = schemaGen.generateSchema(Class.forName("com.toton.machines.domain." + className));
-		obj = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(schema);
-		return (obj);
-
+		String fullClassName = "com.toton.machines.domain." + className;
+		
+//		String obj = null;
+//		ObjectMapper mapper = new ObjectMapper();
+//		// configure mapper, if necessary, then create schema generator
+//		JsonSchemaGenerator schemaGen = new JsonSchemaGenerator(mapper);
+//		JsonSchema schema = schemaGen.generateSchema(Class.forName(fullClassName));
+//		obj = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(schema);
+//		return (obj);
+		
+		return(schemaService.getSchema(fullClassName));
 	}
 
 	@SuppressWarnings("unchecked")

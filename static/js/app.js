@@ -1,19 +1,32 @@
 var automobilesApp = angular.module('automobilesApp', ['ngRoute']);
 
-function isFieldUpdatable(mode, property, data) {
+function showField(mode, property, data) {
 	
-	var editability = (mode=="read") ? false : true;
-	var readOnlyFields=["id","updated","created","updatedBy","createdBy"];
-	if (readOnlyFields.indexOf(property)>-1) editability=false;
-	return(editability);
+	var shouldShowField = false;
+	
+	if(mode=="create") shouldShowField=data.fieldDefinition.showoncreate=="true";
+	else if(mode=="read") shouldShowField=data.fieldDefinition.showonread=="true";
+	else if(mode=="update") shouldShowField=data.fieldDefinition.showonupdate=="true";
+	else if(mode=="list") shouldShowField=data.fieldDefinition.showinlist=="true";	
+	
+	return(shouldShowField);
 	
 }
 
-function getFieldType(mode, property, data) {
+function getFieldDisplayType(mode, property, data) {
 	
 	var type = "text";
-	if (data.type=="integer" && data.format=="utc-millisec") type = "datetime";
-	if (data.type=="object") type="object";
+	if (data.id) type="object";
+	else type=data.type;
+	return(type);
+	
+}
+
+function getFieldEditType(mode, property, data) {
+	
+	var type=data.fieldDefinition.htmltype;
+	if (data.id) type="object";	
+	
 	return(type);
 	
 }
