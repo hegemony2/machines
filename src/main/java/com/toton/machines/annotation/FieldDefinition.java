@@ -23,4 +23,7 @@ public @interface FieldDefinition {
 	
 	boolean showinlist() default true;
 	
+	// options for this field when it is radio, select...  use "@options_fieldname" to set it to a field on the form	
+	String options() default "";
+	
 }

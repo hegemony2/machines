@@ -11,16 +11,16 @@
 	<table border="1">
 		<thead>
 			<tr>
-				<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="showField('list', property, data)"><b>{{data.fieldDefinition.label}}</b></td>
+				<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="showField('list', property, data)" style="padding: 2px;"><b>{{data.fieldDefinition.label}}</b></td>
 			</tr>
 		</thead>
 
 		<tr data-ng-repeat="obj in list">
-			<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="showField('list', property, data)">
+			<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="showField('list', property, data)" style="padding: 2px;">
 				<nobr>
 					<a data-ng-href="#{{object}}/update/{{obj['id']}}" data-ng-if="property=='name'">{{obj[property]}}</a> 
-					<span data-ng-if="property!='name' && getFieldDisplayType('update', property, data)=='object'">{{obj[property].name}}</span>
-					<span data-ng-if="property!='name' && !getFieldDisplayType('update', property, data)=='object'">{{obj[property]}}</span>
+					<span data-ng-if="property!='name' && getFieldDisplayType('list', property, data)=='object'">{{obj[property].name}}</span>
+					<span data-ng-if="property!='name' && getFieldDisplayType('list', property, data)!='object'">{{obj[property]}}</span>
 				</nobr>
 			</td>
 

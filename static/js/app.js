@@ -26,7 +26,6 @@ function getFieldEditType(mode, property, data) {
 	
 	var type=data.fieldDefinition.htmltype;
 	if (data.id) type="object";	
-	
 	return(type);
 	
 }
@@ -58,3 +57,10 @@ automobilesApp.directive('dynamicNgOptions', ['$compile', '$parse', function ($c
         }
     };
 }]);
+
+
+automobilesApp.filter('commasplitter', function() {
+	return function(input) {
+		return input.split(',');
+	} 
+});

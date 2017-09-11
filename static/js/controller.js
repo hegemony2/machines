@@ -71,7 +71,7 @@
         	$scope.read = response.data;
         	for (var property in response.data) {
 
-        		if(typeof(response.data[property])=="object") {
+        		if(response.data[property]!=null && typeof(response.data[property])=="object") {
         		    $parse("selectedValues." + property).assign($scope, response.data[property].id);
         		}
         		
@@ -114,6 +114,7 @@
         function goBack(response) {
             $window.history.back();
         }
+
         
     });
     

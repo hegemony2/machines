@@ -8,13 +8,13 @@ import com.toton.machines.annotation.FieldDefinition;
 @Entity
 public class AutomobileModel extends ParentEntity {
 
-	@FieldDefinition(label="Model Name", order=20, htmltype="text", showoncreate=true, showonupdate=true, showonread=true)
+	@FieldDefinition(label="Model Name", order=20, htmltype="text")
 	private String name;
 	
     @ManyToOne  
-	@FieldDefinition(label="Manufacturer", order=10, showoncreate=true, showonupdate=true, showonread=true, showinlist=true)
+	@FieldDefinition(label="Manufacturer", order=10)
 	private Manufacturer manufacturer;
-	
+    
 	public String getName() {
 		return name;
 	}

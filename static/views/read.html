@@ -3,7 +3,7 @@
 <div>
 
 	<h4>
-		{{className}} <div  data-ng-if="mode=='read' || mode=='update'"><small>(<a data-ng-click="deleteObject();">delete</a>)</small></div>
+		{{className}} <span data-ng-if="mode=='read' || mode=='update'"><small>(<a data-ng-click="deleteObject();">delete</a>)</small></span>
 	</h4>
 	<br/>
 
@@ -15,10 +15,13 @@
 					<div data-ng-if="getFieldDisplayType(mode, property, data)=='object'">{{read[property].name}}</div>
 					<div data-ng-if="getFieldDisplayType(mode, property, data)!='object'">{{read[property]}}</div>
 				</div>
-				<div data-ng-if="mode=='create'">
-					<div data-ng-if="getFieldEditType(mode, property, data)=='text'"><input type="text" data-ng-model="read.name" /></div>
+				<div data-ng-if="mode=='create' || mode=='update'">
+					<div data-ng-if="getFieldEditType(mode, property, data)=='text'"><input type="text" data-ng-model="read[property]" size="{{data.fieldDefinition.htmlsize}}" /></div>
 					<div data-ng-if="getFieldEditType(mode, property, data)=='object'">
 						<select data-ng-model="read[property].id" data-dynamic-ng-options="'obj.id as obj.name for obj in selectObject.' + property.toLowerCase()"></select>
+					</div>					
+					<div data-ng-if="getFieldEditType(mode, property, data)=='select'">
+						<select data-ng-model="read[property]" data-ng-options="opt for opt in data.fieldDefinition.options | commasplitter"></select>
 					</div>					
 				</div>				
 				<br/>
