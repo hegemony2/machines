@@ -35,6 +35,7 @@ public class ManufacturerService {
 				"        order by m.name, am.name " + 
 				"        ) models " + 
 				"    group by manufacturer_name, manufacturer_id " + 
+				"    order by manufacturer_name, manufacturer_id " +				
 				") t " 
 				+ "";
 		String json = customQueryRepository.jsonQuery(sql);

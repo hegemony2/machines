@@ -11,7 +11,7 @@
 	<table border="1">
 		<thead>
 			<tr>
-				<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="showField('list', property, data)" style="padding: 2px;"><b>{{data.fieldDefinition.label}}</b></td>
+				<td data-ng-repeat="(property, data) in schema.properties" data-ng-if="showField('list', property, data)" style="padding: 2px;"><b>{{getFieldLabel('list', property, data)}}</b></td>
 			</tr>
 		</thead>
 

@@ -60,7 +60,6 @@ public class SchemaService {
 				}
 
 				property.setFieldDefinition(getAnnotationValues(field, field.getDeclaredAnnotation(FieldDefinition.class)));
-
 				properties.put(field.getName(), property);
 
 			}
@@ -110,8 +109,18 @@ public class SchemaService {
 		
 		Comparator<Entry<String, Entity>> valueComparator = new Comparator<Entry<String,Entity>>() { 
 			@Override public int compare(Entry<String, Entity> e1, Entry<String, Entity> e2) { 
-				String v1 = e1.getValue().getFieldDefinition().get("order"); 
-				String v2 = e2.getValue().getFieldDefinition().get("order"); 
+				String v1 = "0";
+				if (e1.getValue().getFieldDefinition()!=null) {
+					if (e1.getValue().getFieldDefinition().get("order")!=null) {
+						v1=e1.getValue().getFieldDefinition().get("order");
+					}
+				}
+				String v2 = "0";
+				if (e2.getValue().getFieldDefinition()!=null) {
+					if (e2.getValue().getFieldDefinition().get("order")!=null) {
+						v2=e2.getValue().getFieldDefinition().get("order");
+					}
+				}				
 				return v1.compareTo(v2); 
 			} 
 		};

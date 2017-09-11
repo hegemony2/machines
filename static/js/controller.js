@@ -18,6 +18,7 @@
     	$scope.object = $route.current.params.object;
     	$scope.showField = showField;
     	$scope.getFieldDisplayType = getFieldDisplayType;
+    	$scope.getFieldLabel = getFieldLabel;
     	
         var url=$location.absUrl().split('?')[0];
     	$scope.className=url.substring(url.indexOf("#/") + 2);
@@ -41,6 +42,11 @@
     
     automobilesApp.controller('readController', function($scope, $http, $route, $parse, $location, $window) {
 
+    	$scope.showField = showField;
+    	$scope.getFieldDisplayType = getFieldDisplayType;
+    	$scope.getFieldEditType = getFieldEditType;
+       	$scope.getFieldLabel = getFieldLabel;
+    	
     	var object = $route.current.params.object;
     	var id = $route.current.params.id;
     	$scope.mode = $route.current.params.mode;
@@ -52,9 +58,7 @@
     	if ($scope.mode!='create') {
     		$http.get("/services/" + object + "/read/" + id).then(getRead, errorCallback);	
     	}
-    	$scope.showField = showField;
-    	$scope.getFieldDisplayType = getFieldDisplayType;
-    	$scope.getFieldEditType = getFieldEditType;
+    	
     	
         function getSchema(response){
         	$scope.schema = response.data;

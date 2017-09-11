@@ -2,12 +2,14 @@ var automobilesApp = angular.module('automobilesApp', ['ngRoute']);
 
 function showField(mode, property, data) {
 	
-	var shouldShowField = false;
+	var shouldShowField = true;
 	
-	if(mode=="create") shouldShowField=data.fieldDefinition.showoncreate=="true";
-	else if(mode=="read") shouldShowField=data.fieldDefinition.showonread=="true";
-	else if(mode=="update") shouldShowField=data.fieldDefinition.showonupdate=="true";
-	else if(mode=="list") shouldShowField=data.fieldDefinition.showinlist=="true";	
+	if (data.fieldDefinition) {
+		if(mode=="create" && data.fieldDefinition.showoncreate) shouldShowField=data.fieldDefinition.showoncreate=="true";
+		else if(mode=="read" && data.fieldDefinition.showonread) shouldShowField=data.fieldDefinition.showonread=="true";
+		else if(mode=="update" && data.fieldDefinition.showonupdate) shouldShowField=data.fieldDefinition.showonupdate=="true";
+		else if(mode=="list" && data.fieldDefinition.showinlist) shouldShowField=data.fieldDefinition.showinlist=="true";	
+	}
 	
 	return(shouldShowField);
 	
@@ -24,10 +26,22 @@ function getFieldDisplayType(mode, property, data) {
 
 function getFieldEditType(mode, property, data) {
 	
-	var type=data.fieldDefinition.htmltype;
+	var type="text";
+	if (data.fieldDefinition) {
+		if (data.fieldDefinition.htmltype) type=data.fieldDefinition.htmltype;
+	}
 	if (data.id) type="object";	
 	return(type);
 	
+}
+
+function getFieldLabel(mode, property, data) {
+	
+	var label = property;
+	if (data.fieldDefinition && data.fieldDefinition.label) {
+		label=data.fieldDefinition.label;
+	}
+	return(label);
 }
 
 automobilesApp.directive('dynamicNgModel', ['$compile', '$parse', function ($compile, $parse) {
