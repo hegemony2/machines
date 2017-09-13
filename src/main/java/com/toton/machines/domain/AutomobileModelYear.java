@@ -21,8 +21,17 @@ public class AutomobileModelYear extends ParentEntity {
 	@FieldDefinition(label="Drive", order=40, htmltype="select", options="front,rear,awd,4wd")
     private String drive;
 	
-	@FieldDefinition(label="Passengers", order=50, htmltype="text", htmlsize=2)
-    private Integer passengers;
+	@FieldDefinition(label="Wheelbase (in)", order=50, htmltype="text", htmlsize=5)
+	private Float wheelbaseIn;
+	
+	@FieldDefinition(label="Length (in)", order=60, htmltype="text", htmlsize=5)	
+	private Float lengthIn;
+	
+	@FieldDefinition(label="Width (in)", order=70, htmltype="text", htmlsize=5)	
+	private Float widthIn;
+	
+	@FieldDefinition(label="Height (in)", order=80, htmltype="text", htmlsize=5)	
+	private Float heigthIn;
 	
 	public String getName() {
 		return name;
@@ -48,13 +57,30 @@ public class AutomobileModelYear extends ParentEntity {
 	public void setEnginePlacement(String enginePlacement) {
 		this.enginePlacement = enginePlacement;
 	}
-	public Integer getPassengers() {
-		return passengers;
+	public Float getWheelbaseIn() {
+		return wheelbaseIn;
 	}
-	public void setPassengers(Integer passengers) {
-		this.passengers = passengers;
+	public void setWheelbaseIn(Float wheelbaseIn) {
+		this.wheelbaseIn = wheelbaseIn;
 	}
-
+	public Float getLengthIn() {
+		return lengthIn;
+	}
+	public void setLengthIn(Float lengthIn) {
+		this.lengthIn = lengthIn;
+	}
+	public Float getWidthIn() {
+		return widthIn;
+	}
+	public void setWidthIn(Float widthIn) {
+		this.widthIn = widthIn;
+	}
+	public Float getHeigthIn() {
+		return heigthIn;
+	}
+	public void setHeigthIn(Float heigthIn) {
+		this.heigthIn = heigthIn;
+	}
 	
 	
 }
