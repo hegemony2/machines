@@ -85,8 +85,9 @@
         
         function getSelectObject(response){
         	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
-        	$parse("selectObject." + className.toLowerCase()).assign($scope, response.data);
-
+//        	$parse("selectObject." + className.toLowerCase()).assign($scope, response.data);
+        	$parse("selectObject").assign($scope, response.data);        	
+        	console.log("writing select object;");
         }
         
         function errorCallback(error){
@@ -118,7 +119,6 @@
         function goBack(response) {
             $window.history.back();
         }
-
         
     });
     
