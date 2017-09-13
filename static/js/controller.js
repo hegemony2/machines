@@ -63,10 +63,12 @@
         function getSchema(response){
         	$scope.schema = response.data;
         	for (var property in response.data.properties) {
-        		if ($scope.mode=="create") $parse("read." + property).assign($scope, "");
+        		if ($scope.mode=="create" && !response.data.properties[property].id) {
+        			$parse("read." + property).assign($scope, "");
+        		}
         		if (response.data.properties[property].id) {
         			var className = response.data.properties[property].type;
-        			$http.get("/services/" + className + "/list").then(getSelectObject, errorCallback);
+        			$http.get("/services/" + className + "/list").then(getParentObject, errorCallback);
         		}
         	}
         }
@@ -83,11 +85,11 @@
         }
        
         
-        function getSelectObject(response){
+        function getParentObject(response){
         	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
-//        	$parse("selectObject." + className.toLowerCase()).assign($scope, response.data);
-        	$parse("selectObject").assign($scope, response.data);        	
-        	console.log("writing select object;");
+//        	$parse("parentObject." + className.toLowerCase()).assign($scope, response.data);
+        	$parse("parentObject.data").assign($scope, response.data);        	
+        	console.log("writing parentObject;");
         }
         
         function errorCallback(error){
@@ -114,6 +116,13 @@
         	var url = "/services/" + object + "/delete/" + id;
         	console.log(url);
        		$http.delete(url, data).then(goBack, errorCallback);	
+        }
+        
+        $scope.treeElementSelected=function(id, name, property) {
+        	console.log("id:" + id);
+        	$parse("read." + property + ".id").assign($scope, id);
+        	$scope.read[property].id=id;
+        	$scope.parentObject.selected=name;
         }
         
         function goBack(response) {
