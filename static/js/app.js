@@ -44,6 +44,10 @@ function getFieldLabel(mode, property, data) {
 	return(label);
 }
 
+function goBack(response) {
+    $window.history.back();
+}
+
 automobilesApp.directive('dynamicNgModel', ['$compile', '$parse', function ($compile, $parse) {
     return {
         restrict: 'A',
@@ -81,7 +85,7 @@ automobilesApp.filter('commasplitter', function() {
 
 automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compile, $parse) {
     return {
-        template: '<div class="data-tree-model"><input type="text" data-ng-model="parentObject.selected" readonly="true"></div>',
+        template: '<div class="data-tree-model"></div>',
         scope: {
             levels: '@',
             binding: '='
@@ -89,20 +93,27 @@ automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compi
         replace: true,
         link: function(scope, element) {
             scope.$watch('binding', function() {
-
-                var el = angular.element('<ul/>');
                 
-                for (var i=0; i<scope.binding.data.length; i++) {
-                	
-                	var data = scope.binding.data[i];
-                	el.append("<li class=\"normal\"><a href=\"\" data-ng-click=\"treeElementSelected('" + data.id + "','" + data.name + "','Manufacturer')\">" + data.name + "</a></li>");	
+                if (scope.binding && scope.binding.data) {
+                	var inputEl = '<input type="text" data-ng-model="parentObject.' + scope.levels + '.selected" readonly="true"/>';
+                	element.append(inputEl);
+                    var el = angular.element('<ul/>');
+                    for (var i=0; i<scope.binding.data.length; i++) {
+                    	var data = scope.binding.data[i];
+                    	var listItem=angular.element('<li class="normal"><a href="" data-ng-click="treeElementSelected(\'' + data.id + '\',\'' + data.name + '\',\'' + scope.levels + '\');">' + data.name + '</a></li>');
+                    	el.append(listItem);	
+                    }
+                    element.append(el);                
+                    $compile(element)(scope);
+                    
                 }
-                
-                
-                $compile(el)(scope);
-                element.append(el);
-            	
-             });        	
+            },
+            scope.treeElementSelected=function(id, name, property) {
+            	console.log("id:" + id);
+            	$parse("read." + property + ".id").assign(scope.$parent, id);
+            	$parse("parentObject." + property + ".selected").assign(scope, name);
+            }
+            );        	
         }
       }
 }]);

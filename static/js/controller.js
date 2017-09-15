@@ -46,6 +46,7 @@
     	$scope.getFieldDisplayType = getFieldDisplayType;
     	$scope.getFieldEditType = getFieldEditType;
        	$scope.getFieldLabel = getFieldLabel;
+       	$scope.goBack = goBack;
     	
     	var object = $route.current.params.object;
     	var id = $route.current.params.id;
@@ -62,27 +63,32 @@
     	
         function getSchema(response){
         	$scope.schema = response.data;
-        	for (var property in response.data.properties) {
-        		if ($scope.mode=="create" && !response.data.properties[property].id) {
+        	for (var prop in response.data.properties) {
+        		if ($scope.mode=="create" && !response.data.properties[prop].id) {
 // standard field... need to intialize the scope so that the html fields can bind to it        			
-        			$parse("read." + property).assign($scope, "");
+        			$parse("read." + prop).assign($scope, "");
         		}
-        		if (response.data.properties[property].id) {
+        		if (response.data.properties[prop].id) {
 // we have an object... need to set up tree selector        			
-        			var className = response.data.properties[property].type;
-        			$http.get("/services/" + className + "/list").then(bindParentObjectData, errorCallback);
+        			var className = response.data.properties[prop].type;
+        			var propertyName = prop;
+        			var bindParentObjectDataCallback = function(response) {
+        				bindParentObjectData(propertyName, response);
+        			}
+        			$parse("read." + prop + ".id").assign($scope, "");
+        			$http.get("/services/" + className + "/list").then(bindParentObjectDataCallback, errorCallback);
         		}
         	}
         }
         
         function getRead(response){
-
+        	$scope.read=response.data;
         }
         
-        function bindParentObjectData(response){
-        	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
-        	$parse("parentObject." + className + ".data").assign($scope, response.data);        	
-        	console.log("writing parentObject for " + className);
+        function bindParentObjectData(property, response){
+ //       	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
+        	$parse("parentObject." + property + ".data").assign($scope, response.data);        	
+        	console.log("writing parentObject for " + propertyName);
         }
         
         function errorCallback(error){
@@ -110,17 +116,7 @@
         	console.log(url);
        		$http.delete(url, data).then(goBack, errorCallback);	
         }
-        
-        $scope.treeElementSelected=function(id, name, property) {
-        	console.log("id:" + id);
-        	$parse("read." + property + ".id").assign($scope, id);
-        	$scope.read[property].id=id;
-        	$scope.parentObject.selected=name;
-        }
-        
-        function goBack(response) {
-            $window.history.back();
-        }
+
         
     });
     

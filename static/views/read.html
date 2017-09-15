@@ -25,7 +25,7 @@
 	 							<li data-ng-repeat="obj in parentObject.data" class="normal"><a href="" data-ng-click="treeElementSelected(obj.id, obj.name, property)">{{obj.name}}</a></li>
 	 						</ul>
  						</div> -->
- 						<tree-selector levels="Manufacturer" binding="parentObject.Manufacturer"></tree-selector>
+ 						<tree-selector levels="manufacturer" binding="parentObject.manufacturer"></tree-selector>
 					</div>					
 					<div data-ng-if="getFieldEditType(mode, property, data)=='select'">
 						<select data-ng-model="read[property]" data-ng-options="opt for opt in data.fieldDefinition.options | commasplitter"></select>
