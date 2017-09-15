@@ -72,6 +72,20 @@ automobilesApp.directive('dynamicNgOptions', ['$compile', '$parse', function ($c
     };
 }]);
 
+automobilesApp.directive('dynamicTreeSelector', ['$compile', '$parse', function ($compile, $parse) {
+    return {
+        restrict: 'A',
+        terminal: true,
+        priority: 1,
+        link: function (scope, elem) {
+            var name = $parse(elem.attr('dynamic-tree-selector'))(scope);
+            elem.removeAttr('dynamic-tree-selector');
+            elem.attr('tree-selector', name);
+            $compile(elem)(scope);
+        }
+    };
+}]);
+
 
 automobilesApp.filter('commasplitter', function() {
 	return function(input) {
@@ -92,7 +106,6 @@ automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compi
                 if (scope.binding) {
                 	if (scope.binding.data) {
                     	var inputEl = '<input type="text" data-ng-model="parentObject.' + scope.levels + '.selected" readonly="true"/>';
-                    	$compile(inputEl)(scope);
                     	element.append(inputEl);
                         var el = angular.element('<ul/>');
                         for (var i=0; i<scope.binding.data.length; i++) {
