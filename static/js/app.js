@@ -44,10 +44,6 @@ function getFieldLabel(mode, property, data) {
 	return(label);
 }
 
-function goBack(response) {
-    $window.history.back();
-}
-
 automobilesApp.directive('dynamicNgModel', ['$compile', '$parse', function ($compile, $parse) {
     return {
         restrict: 'A',
@@ -88,24 +84,26 @@ automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compi
         template: '<div class="data-tree-model"></div>',
         scope: {
             levels: '@',
-            binding: '='
+            binding: '=',
+            data: '='
          },        
         replace: true,
         link: function(scope, element) {
             scope.$watch('binding', function() {
                 
-                if (scope.binding && scope.binding.data) {
-                	var inputEl = '<input type="text" data-ng-model="parentObject.' + scope.levels + '.selected" readonly="true"/>';
-                	element.append(inputEl);
-                    var el = angular.element('<ul/>');
-                    for (var i=0; i<scope.binding.data.length; i++) {
-                    	var data = scope.binding.data[i];
-                    	var listItem=angular.element('<li class="normal"><a href="" data-ng-click="treeElementSelected(\'' + data.id + '\',\'' + data.name + '\',\'' + scope.levels + '\');">' + data.name + '</a></li>');
-                    	el.append(listItem);	
-                    }
-                    element.append(el);                
-                    $compile(element)(scope);
-                    
+                if (scope.binding) {
+                	if (scope.binding.data) {
+                    	var inputEl = '<input type="text" data-ng-model="parentObject.' + scope.levels + '.selected" readonly="true"/>';
+                    	element.append(inputEl);
+                        var el = angular.element('<ul/>');
+                        for (var i=0; i<scope.binding.data.length; i++) {
+                        	var data = scope.binding.data[i];
+                        	var listItem=angular.element('<li class="normal"><a href="" data-ng-click="treeElementSelected(\'' + data.id + '\',\'' + data.name + '\',\'' + scope.levels + '\');">' + data.name + '</a></li>');
+                        	el.append(listItem);	
+                        }
+                        element.append(el);                
+                        $compile(element)(scope);
+                	}
                 }
             },
             scope.treeElementSelected=function(id, name, property) {

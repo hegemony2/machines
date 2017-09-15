@@ -46,7 +46,6 @@
     	$scope.getFieldDisplayType = getFieldDisplayType;
     	$scope.getFieldEditType = getFieldEditType;
        	$scope.getFieldLabel = getFieldLabel;
-       	$scope.goBack = goBack;
     	
     	var object = $route.current.params.object;
     	var id = $route.current.params.id;
@@ -83,6 +82,13 @@
         
         function getRead(response){
         	$scope.read=response.data;
+        	if ($scope.mode=="update") {
+            	for (var prop in response.data) {
+            		if (response.data[prop].id) {
+            			$parse("parentObject." + prop + ".selected").assign($scope, response.data[prop].name);
+            		}
+            	}
+        	}
         }
         
         function bindParentObjectData(property, response){
@@ -93,6 +99,10 @@
         
         function errorCallback(error){
             //error code
+        }
+        
+        function goBack(response) {
+            $window.history.back();
         }
         
         $scope.submitForm=function() {
