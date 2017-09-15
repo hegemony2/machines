@@ -86,6 +86,7 @@
             	for (var prop in response.data) {
             		if (response.data[prop].id) {
             			$parse("parentObject." + prop + ".selected").assign($scope, response.data[prop].name);
+                    	console.log("writing parentObject." + prop + ".selected");            			
             		}
             	}
         	}
@@ -94,7 +95,7 @@
         function bindParentObjectData(property, response){
  //       	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
         	$parse("parentObject." + property + ".data").assign($scope, response.data);        	
-        	console.log("writing parentObject for " + propertyName);
+        	console.log("writing parentObject." + property + ".data");
         }
         
         function errorCallback(error){

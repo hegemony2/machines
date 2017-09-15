@@ -18,7 +18,7 @@
 				<div data-ng-if="mode=='create' || mode=='update'">
 					<div data-ng-if="getFieldEditType(mode, property, data)=='text'"><input type="text" data-ng-model="read[property]" size="{{data.fieldDefinition.htmlsize}}" /></div>
 					<div data-ng-if="getFieldEditType(mode, property, data)=='object'">
- 						<tree-selector levels="manufacturer" binding="parentObject.manufacturer" data="read.manufacturer"></tree-selector>
+ 						<tree-selector levels="manufacturer" binding="parentObject.manufacturer"></tree-selector>
 					</div>					
 					<div data-ng-if="getFieldEditType(mode, property, data)=='select'">
 						<select data-ng-model="read[property]" data-ng-options="opt for opt in data.fieldDefinition.options | commasplitter"></select>

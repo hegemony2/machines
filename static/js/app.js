@@ -84,16 +84,15 @@ automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compi
         template: '<div class="data-tree-model"></div>',
         scope: {
             levels: '@',
-            binding: '=',
-            data: '='
+            binding: '='
          },        
         replace: true,
         link: function(scope, element) {
             scope.$watch('binding', function() {
-                
                 if (scope.binding) {
                 	if (scope.binding.data) {
                     	var inputEl = '<input type="text" data-ng-model="parentObject.' + scope.levels + '.selected" readonly="true"/>';
+                    	$compile(inputEl)(scope);
                     	element.append(inputEl);
                         var el = angular.element('<ul/>');
                         for (var i=0; i<scope.binding.data.length; i++) {
@@ -104,6 +103,9 @@ automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compi
                         element.append(el);                
                         $compile(element)(scope);
                 	}
+                	if (scope.binding.selected) {
+                    	$parse("parentObject." + scope.levels + ".selected").assign(scope, scope.binding.selected);
+                	}                	
                 }
             },
             scope.treeElementSelected=function(id, name, property) {
