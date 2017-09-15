@@ -19,12 +19,13 @@
 					<div data-ng-if="getFieldEditType(mode, property, data)=='text'"><input type="text" data-ng-model="read[property]" size="{{data.fieldDefinition.htmlsize}}" /></div>
 					<div data-ng-if="getFieldEditType(mode, property, data)=='object'">
 <!-- 						<select data-ng-model="read[property].id" data-dynamic-ng-options="'obj.id as obj.name for obj in selectObject.' + property.toLowerCase()"></select> -->
-						<input type="text" data-ng-model="parentObject.selected" readonly="true">
-						<div class="data-tree-model">
+<!-- 					<div class="data-tree-model">
+							<input type="text" data-ng-model="parentObject.selected" readonly="true">
 	 						<ul>
 	 							<li data-ng-repeat="obj in parentObject.data" class="normal"><a href="" data-ng-click="treeElementSelected(obj.id, obj.name, property)">{{obj.name}}</a></li>
 	 						</ul>
- 						</div>
+ 						</div> -->
+ 						<tree-selector levels="Manufacturer" binding="parentObject.Manufacturer"></tree-selector>
 					</div>					
 					<div data-ng-if="getFieldEditType(mode, property, data)=='select'">
 						<select data-ng-model="read[property]" data-ng-options="opt for opt in data.fieldDefinition.options | commasplitter"></select>

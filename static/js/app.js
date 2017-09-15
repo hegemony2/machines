@@ -78,3 +78,31 @@ automobilesApp.filter('commasplitter', function() {
 		return input.split(',');
 	} 
 });
+
+automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compile, $parse) {
+    return {
+        template: '<div class="data-tree-model"><input type="text" data-ng-model="parentObject.selected" readonly="true"></div>',
+        scope: {
+            levels: '@',
+            binding: '='
+         },        
+        replace: true,
+        link: function(scope, element) {
+            scope.$watch('binding', function() {
+
+                var el = angular.element('<ul/>');
+                
+                for (var i=0; i<scope.binding.data.length; i++) {
+                	
+                	var data = scope.binding.data[i];
+                	el.append("<li class=\"normal\"><a href=\"\" data-ng-click=\"treeElementSelected('" + data.id + "','" + data.name + "','Manufacturer')\">" + data.name + "</a></li>");	
+                }
+                
+                
+                $compile(el)(scope);
+                element.append(el);
+            	
+             });        	
+        }
+      }
+}]);

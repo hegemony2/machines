@@ -64,32 +64,25 @@
         	$scope.schema = response.data;
         	for (var property in response.data.properties) {
         		if ($scope.mode=="create" && !response.data.properties[property].id) {
+// standard field... need to intialize the scope so that the html fields can bind to it        			
         			$parse("read." + property).assign($scope, "");
         		}
         		if (response.data.properties[property].id) {
+// we have an object... need to set up tree selector        			
         			var className = response.data.properties[property].type;
-        			$http.get("/services/" + className + "/list").then(getParentObject, errorCallback);
+        			$http.get("/services/" + className + "/list").then(bindParentObjectData, errorCallback);
         		}
         	}
         }
         
         function getRead(response){
-        	$scope.read = response.data;
-        	for (var property in response.data) {
 
-        		if(response.data[property]!=null && typeof(response.data[property])=="object") {
-        		    $parse("selectedValues." + property).assign($scope, response.data[property].id);
-        		}
-        		
-        	}
         }
-       
         
-        function getParentObject(response){
+        function bindParentObjectData(response){
         	var className=response.config.url.substring(response.config.url.indexOf("/services/") + 10, response.config.url.indexOf("/list"));
-//        	$parse("parentObject." + className.toLowerCase()).assign($scope, response.data);
-        	$parse("parentObject.data").assign($scope, response.data);        	
-        	console.log("writing parentObject;");
+        	$parse("parentObject." + className + ".data").assign($scope, response.data);        	
+        	console.log("writing parentObject for " + className);
         }
         
         function errorCallback(error){
