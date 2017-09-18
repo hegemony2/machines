@@ -93,6 +93,44 @@ automobilesApp.filter('commasplitter', function() {
 	} 
 });
 
+//automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compile, $parse) {
+//    return {
+//        template: '<div class="data-tree-model"></div>',
+//        scope: {
+//            levels: '@',
+//            binding: '='
+//         },        
+//        replace: true,
+//        link: function(scope, element) {
+//            scope.$watch('binding.' + scope.levels, function() {
+//                if (scope.binding && scope.binding[scope.levels]) {
+//            		if (scope.binding[scope.levels].data) {
+//	                	var inputEl = '<input type="text" data-ng-model="parentObject.' + scope.levels + '.selected" readonly="true"/>';
+//	                	element.append(inputEl);
+//	                    var el = angular.element('<ul/>');
+//	                    for (var i=0; i<scope.binding[scope.levels].data.length; i++) {
+//	                    	var data = scope.binding[scope.levels].data[i];
+//	                    	var listItem=angular.element('<li class="normal"><a href="" data-ng-click="treeElementSelected(\'' + data.id + '\',\'' + data.name + '\',\'' + scope.levels + '\');">' + data.name + '</a></li>');
+//	                    	el.append(listItem);	
+//	                    }
+//	                    element.append(el);                
+//	                    $compile(element)(scope);            			
+//            		}
+//                	if (scope.binding[scope.levels].selected) {
+//                    	$parse("parentObject." + scope.levels + ".selected").assign(scope, scope.binding[scope.levels].selected);
+//                	}                	
+//            	}
+//            },
+//            scope.treeElementSelected=function(id, name, property) {
+//            	console.log("id:" + id);
+//            	$parse("read." + property + ".id").assign(scope.$parent, id);
+//            	$parse("parentObject." + property + ".selected").assign(scope, name);
+//            }
+//            );        	
+//        }
+//      }
+//}]);
+
 automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compile, $parse) {
     return {
         template: '<div class="data-tree-model"></div>',
@@ -102,24 +140,44 @@ automobilesApp.directive('treeSelector', ['$compile', '$parse', function ($compi
          },        
         replace: true,
         link: function(scope, element) {
-            scope.$watch('binding', function() {
-                if (scope.binding) {
-                	if (scope.binding.data) {
-                    	var inputEl = '<input type="text" data-ng-model="parentObject.' + scope.levels + '.selected" readonly="true"/>';
-                    	element.append(inputEl);
-                        var el = angular.element('<ul/>');
-                        for (var i=0; i<scope.binding.data.length; i++) {
-                        	var data = scope.binding.data[i];
-                        	var listItem=angular.element('<li class="normal"><a href="" data-ng-click="treeElementSelected(\'' + data.id + '\',\'' + data.name + '\',\'' + scope.levels + '\');">' + data.name + '</a></li>');
-                        	el.append(listItem);	
-                        }
-                        element.append(el);                
-                        $compile(element)(scope);
+            scope.$watch('binding.' + scope.levels, function() {
+            	
+            	// iterate through the schema to determine the hierarchy
+            	var currentProperties=scope.$parent.schema.properties;
+            	var levelsArray = new Array();
+            	while(currentProperties) {
+            		var lastProperties=currentProperties;
+            		currentProperties=null;
+                	for (var prop in lastProperties) {
+                		if (lastProperties[prop].id) {
+                			var className = lastProperties[prop].type;
+                			levelsArray.push(className);
+                			currentProperties=lastProperties[prop].properties;
+                		}
                 	}
-                	if (scope.binding.selected) {
-                    	$parse("parentObject." + scope.levels + ".selected").assign(scope, scope.binding.selected);
+            	}
+            	
+            	console.log("levels: " + levelsArray.join());
+            	
+            	
+            	
+                if (scope.binding && scope.binding[scope.levels]) {
+            		if (scope.binding[scope.levels].data) {
+	                	var inputEl = '<input type="text" data-ng-model="parentObject.' + scope.levels + '.selected" readonly="true"/>';
+	                	element.append(inputEl);
+	                    var el = angular.element('<ul/>');
+	                    for (var i=0; i<scope.binding[scope.levels].data.length; i++) {
+	                    	var data = scope.binding[scope.levels].data[i];
+	                    	var listItem=angular.element('<li class="normal"><a href="" data-ng-click="treeElementSelected(\'' + data.id + '\',\'' + data.name + '\',\'' + scope.levels + '\');">' + data.name + '</a></li>');
+	                    	el.append(listItem);	
+	                    }
+	                    element.append(el);                
+	                    $compile(element)(scope);            			
+            		}
+                	if (scope.binding[scope.levels].selected) {
+                    	$parse("parentObject." + scope.levels + ".selected").assign(scope, scope.binding[scope.levels].selected);
                 	}                	
-                }
+            	}
             },
             scope.treeElementSelected=function(id, name, property) {
             	console.log("id:" + id);
