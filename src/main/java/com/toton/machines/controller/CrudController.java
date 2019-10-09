@@ -16,12 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.toton.machines.dto.schema.Entity;
 import com.toton.machines.service.CrudService;
+import com.toton.machines.service.RepositoriesService;
 
 @RestController
 public class CrudController<S> {
 
 	@Autowired
 	CrudService<S> crudService;
+	
+	@Autowired
+	RepositoriesService<S> repositoriesService;	
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	public ResponseEntity<S> create(@RequestBody S obj) {
@@ -47,7 +51,7 @@ public class CrudController<S> {
 		HttpStatus httpStatus = HttpStatus.OK;
 
 		try {
-			obj = (S) crudService.read(getClassName(request), id);
+			obj = (S) crudService.read(repositoriesService.getClassName(request), id);
 			if (obj==null) httpStatus = HttpStatus.NOT_FOUND;
 		}
 		catch (Exception e) {
@@ -65,7 +69,7 @@ public class CrudController<S> {
 		HttpStatus httpStatus = HttpStatus.CREATED;
 
 		try {
-			savedObj = (S) crudService.update(obj, getClassName(request), id);
+			savedObj = (S) crudService.update(obj, repositoriesService.getClassName(request), id);
 		}
 		catch (Exception e) {
 			httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
@@ -82,7 +86,7 @@ public class CrudController<S> {
 		HttpStatus httpStatus = HttpStatus.CREATED;
 
 		try {
-			crudService.delete(getClassName(request), id);
+			crudService.delete(repositoriesService.getClassName(request), id);
 		}
 		catch (Exception e) {
 			httpStatus=HttpStatus.INTERNAL_SERVER_ERROR;
@@ -99,7 +103,7 @@ public class CrudController<S> {
 		HttpStatus httpStatus = HttpStatus.OK;
 
 		try {
-			obj = (List<S>) crudService.list(getClassName(request));
+			obj = (List<S>) crudService.list(repositoriesService.getClassName(request));
 			if (obj==null) httpStatus = HttpStatus.NOT_FOUND;
 		}
 		catch (Exception e) {
@@ -117,7 +121,7 @@ public class CrudController<S> {
 		HttpStatus httpStatus = HttpStatus.OK;
 
 		try {
-			obj = crudService.schema(getClassName(request));
+			obj = repositoriesService.schema(repositoriesService.getClassName(request));
 			if (obj==null) httpStatus = HttpStatus.NOT_FOUND;
 		}
 		catch (Exception e) {
@@ -127,20 +131,6 @@ public class CrudController<S> {
 		return(new ResponseEntity<Entity>(obj, httpStatus));
 		
 	}
-	
-	private String getClassName(HttpServletRequest request) {
-		
-		String requestUrl = request.getRequestURL().toString();
-		String host = request.getRemoteHost();
-		int hostpos = request.getRequestURL().indexOf(host);
-		int slashpos = request.getRequestURL().indexOf("/", hostpos + host.length());
-		slashpos = request.getRequestURL().indexOf("/", slashpos + 1);		
-		int nextslashpos = request.getRequestURL().indexOf("/", slashpos + 1);
-		String className = requestUrl.substring(slashpos + 1, nextslashpos);
-		return(className);
-		
-	}
-	
 
 
 }

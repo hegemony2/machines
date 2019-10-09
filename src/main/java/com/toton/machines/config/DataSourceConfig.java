@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Primary;
 
 public class DataSourceConfig {
 
-//	@ConfigurationProperties(prefix = "datasource.postgres")
 	@Bean
 	@Primary
 	public DataSource dataSource() {
